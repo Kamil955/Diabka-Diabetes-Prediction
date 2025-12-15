@@ -10,7 +10,7 @@ from pathlib import Path
 # 1. KONFIGURACJA STRONY I STAN APLIKACJI
 # =========================================================
 st.set_page_config(
-    page_title="Diabka - System AI",
+    page_title="Diabka",
     page_icon="🩺",
     layout="wide",
     initial_sidebar_state="expanded"
