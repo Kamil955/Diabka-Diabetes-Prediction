@@ -45,17 +45,19 @@ def calculate_bmi(weight_kg: float, height_cm: float) -> float:
     height_m = height_cm / 100.0
     return round(weight_kg / (height_m ** 2), 1)
 
-# Funkcja do bezpiecznego wyświetlania zdjęć
-def show_image(path, caption, width = None):
-    if os.path.exists(path):
+# katalog aplikacji (github-app/)
+HERE = Path(__file__).resolve().parent
+
+def show_image(path, caption, width=None):
+    img_path = HERE / path
+
+    if img_path.exists():
         if width:
-            # Jeśli podano szerokość, używamy jej (w pikselach)
-            st.image(path, caption=caption, width=width)
+            st.image(str(img_path), caption=caption, width=width)
         else:
-            # W przeciwnym razie dopasuj do szerokości kontenera (domyślnie)
-            st.image(path, caption=caption, use_container_width=True)
+            st.image(str(img_path), caption=caption, use_container_width=True)
     else:
-        st.warning(f"⚠️ Brak pliku: {path}. Sprawdź folder 'img'.")
+        st.warning(f"⚠️ Brak pliku: {img_path}")
 
 # =========================================================
 # 3. ŁADOWANIE MODELI
