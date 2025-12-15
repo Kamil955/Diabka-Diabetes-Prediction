@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
+from pathlib import Path
+
 
 
 # =========================================================
@@ -58,23 +60,26 @@ def show_image(path, caption, width = None):
 # =========================================================
 # 3. ŁADOWANIE MODELI
 # =========================================================
+HERE = Path(__file__).resolve().parent  # github-app/
+
 @st.cache_resource
 def load_models():
     models = {}
-    
-    # 1. Model Kliniczny
-    path_clinical = 'medical_diabetes_model.pkl'
-    if os.path.exists(path_clinical):
+
+    # 1. Model kliniczny
+    path_clinical = HERE / "medical_diabetes_model.pkl"
+    if path_clinical.exists():
         models["clinical"] = joblib.load(path_clinical)
-    
-    # 2. Model Ankietowy
-    path_brfss = os.path.join('modele_brfss', 'best_model_tuned.pkl')
-    if not os.path.exists(path_brfss):
-        path_brfss = 'best_model_tuned.pkl'
-        
-    if os.path.exists(path_brfss):
+    else:
+        st.error(f"❌ Nie znaleziono modelu: {path_clinical}")
+
+    # 2. Model ankietowy (BRFSS)
+    path_brfss = HERE / "best_model_tuned.pkl"
+    if path_brfss.exists():
         models["brfss"] = joblib.load(path_brfss)
-        
+    else:
+        st.error(f"❌ Nie znaleziono modelu: {path_brfss}")
+
     return models
 
 loaded_models_data = load_models()
