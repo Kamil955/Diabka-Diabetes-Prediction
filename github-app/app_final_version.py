@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
-import plotly.express as px
+
 
 # =========================================================
 # 1. KONFIGURACJA STRONY I STAN APLIKACJI
